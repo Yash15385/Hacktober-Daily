@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hacktoberfest Daily Events | Handdrawn Daily Schedule Card</title>
+  <meta name="description" content="A minimal, hand-drawn daily layout card of online Hacktoberfest events featuring workshops, live streams, and developer challenges." />
+  
+  <!-- Google Fonts: Handwritten styles matching reference sketch -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Inter:wght@400;500;600;700&family=Kalam:wght@400;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <div class="app-viewport">
+    
+    <!-- Top Bar Controls (Floating Outside Card) -->
+    <header class="top-controls">
+      <div class="controls-left">
+        <button id="btn-prev-day" class="nav-btn" title="Previous Day">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        
+        <div class="date-picker-wrapper">
+          <button id="btn-date-display" class="date-picker-trigger">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+            <span id="header-date-label">October 6, 2026</span>
+          </button>
+          <input type="date" id="date-input" min="2026-10-01" max="2026-10-31" value="2026-10-06" class="sr-only" />
+        </div>
+
+        <button id="btn-next-day" class="nav-btn" title="Next Day">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+        
+        <button id="btn-today" class="today-btn">Today</button>
+      </div>
+
+      <div class="controls-right">
+        <button id="btn-timezone-toggle" class="tz-btn" title="Toggle Timezone Display">
+          <span class="tz-badge">UTC</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Handheld Daily Schedule Card Container -->
+    <main class="card-container">
+      <div class="handheld-card" id="daily-card">
+        
+        <!-- Card Header -->
+        <div class="card-header">
+          <div class="header-left">
+            <h1 class="card-date-title" id="card-date-heading">Date</h1>
+          </div>
+          
+          <div class="header-right">
+            <!-- White square button with external arrow ↗ -->
+            <button id="btn-external-options" class="external-sq-btn" aria-label="Open Link and Export Options" title="Options & Export">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1e1e1e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </button>
+
+            <!-- Dropdown Menu triggered by ↗ button -->
+            <div id="options-dropdown" class="options-menu hidden">
+              <a href="https://hacktoberfest.com" target="_blank" rel="noopener noreferrer" class="menu-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                <span>Visit Hacktoberfest.com</span>
+              </a>
+              <button id="menu-export-png" class="menu-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Export Card as PNG</span>
+              </button>
+              <button id="menu-copy-summary" class="menu-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <span>Copy Summary Text</span>
+              </button>
+              <button id="menu-export-ical" class="menu-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                <span>Export iCal Calendar (.ics)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Inner Content Boxes -->
+        <div class="content-boxes">
+          
+          <!-- Box 1: Mini Event (Pastel Sky Blue #a5d8ff) -->
+          <section class="event-box box-mini-event" id="box-mini-event">
+            <h2 class="box-title">Mini Event</h2>
+            <ul class="bullet-list" id="list-mini-events">
+              <!-- Dynamically populated -->
+            </ul>
+          </section>
+
+          <!-- Box 2: Stream (Pastel Coral Pink #ffc9c9) -->
+          <section class="event-box box-stream" id="box-stream">
+            <h2 class="box-title">Stream</h2>
+            <ul class="bullet-list" id="list-streams">
+              <!-- Dynamically populated -->
+            </ul>
+          </section>
+
+          <!-- Box 3: Challenges (Pastel Butter Yellow #ffec99) -->
+          <section class="event-box box-challenges" id="box-challenges">
+            <h2 class="box-title">Challenges</h2>
+            <ul class="bullet-list" id="list-challenges">
+              <!-- Dynamically populated -->
+            </ul>
+          </section>
+
+        </div>
+
+        <!-- Card Footer -->
+        <footer class="card-footer">
+          <p class="footer-text">Made with <span class="heart-emoji">💖</span> by Yash</p>
+        </footer>
+
+      </div>
+    </main>
+
+    <!-- Event Detail Modal Popup -->
+    <div id="event-modal" class="modal-backdrop hidden">
+      <div class="modal-card">
+        <div class="modal-header">
+          <span id="modal-category-tag" class="modal-tag">Category</span>
+          <button id="modal-close-btn" class="modal-close">&times;</button>
+        </div>
+        <h3 id="modal-event-title" class="modal-title">Event Title</h3>
+        <div class="modal-meta">
+          <div class="meta-row">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span id="modal-event-time">14:00 UTC</span>
+          </div>
+          <div class="meta-row">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <span id="modal-event-platform">Discord / Zoom</span>
+          </div>
+        </div>
+        <p id="modal-event-desc" class="modal-desc">Detailed event description will appear here...</p>
+        <div class="modal-actions">
+          <a id="modal-join-btn" href="#" target="_blank" rel="noopener noreferrer" class="btn-join">
+            <span>Join Event</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification Overlay -->
+    <div id="toast" class="toast hidden">
+      <span id="toast-message">Copied to clipboard!</span>
+    </div>
+
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
